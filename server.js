@@ -70,5 +70,5 @@ app.post('/generate', async (req, res) => {
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`Clario backend running on port ${PORT}`));
