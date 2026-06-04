@@ -40,11 +40,10 @@ export default function App() {
       Object.entries(form).forEach(([k, v]) => formData.append(k, v));
       files.forEach((f, i) => { if (f) formData.append(`file${i + 1}`, f); });
 
-      const apiUrl = process.env.REACT_APP_API_URL || '';
-      const res = await fetch(`${apiUrl}/generate`, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await fetch('https://hook.eu1.make.com/a7hka6vibj3tllpm7vskolb7o0u20gtt', {
+  method: 'POST',
+  body: formData
+});
 
       if (!res.ok) {
         const err = await res.json();
