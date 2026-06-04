@@ -8,7 +8,13 @@ const { buildClarioPrompt } = require('./prompt');
 const { generateHTML } = require('./htmlGenerator');
 
 const app = express();
-app.use(cors({ origin: '*' }));;
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Methods', '*');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 app.use(express.json());
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
