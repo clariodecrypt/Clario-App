@@ -46,8 +46,9 @@ export default function App() {
 });
 if (!res.ok) {
   throw new Error('Erreur serveur');
+}
       
-      setSuccess(true);
+setSuccess(true);
     } catch (e) {
       setError(e.message);
     } finally {
