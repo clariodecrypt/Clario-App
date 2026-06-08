@@ -40,15 +40,12 @@ export default function App() {
       Object.entries(form).forEach(([k, v]) => formData.append(k, v));
       files.forEach((f, i) => { if (f) formData.append(`file${i + 1}`, f); });
 
-      const res = await fetch('https://hook.eu1.make.com/a7hka6vibj3tllpm7vskolb7o0u20gtt', {
-  method: 'POST',
-  body: formData
-});
-if (!res.ok) {
-  throw new Error('Erreur serveur');
-}
-      
-setSuccess(true);
+      await fetch('https://hook.eu1.make.com/a7hka6vibj3tllpm7vskolb7o0u20gtt', {
+        method: 'POST',
+        body: formData
+      });
+
+      setSuccess(true);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -58,7 +55,6 @@ setSuccess(true);
 
   return (
     <div style={styles.container}>
-      {/* Header */}
       <div style={styles.header}>
         <div>
           <div style={styles.logo}>CLARIO</div>
@@ -70,13 +66,11 @@ setSuccess(true);
         <h2 style={styles.cardTitle}>Nouveau rapport d'analyse</h2>
         <p style={styles.cardSub}>Renseignez les informations du produit financier à analyser</p>
 
-        {/* BLOC 0 — Email */}
         <div style={styles.section}>
           <div style={styles.sectionTitle}>📧 Vos coordonnées</div>
           <Field label="Adresse email *" value={form.email} onChange={v => set('email', v)} placeholder="votre@email.com" type="email" />
         </div>
 
-        {/* BLOC 1 — Identité */}
         <div style={styles.section}>
           <div style={styles.sectionTitle}>📋 Identité du produit</div>
           <div style={styles.grid2}>
@@ -94,7 +88,6 @@ setSuccess(true);
           <Field label="URL de la page produit" value={form.urlProduit} onChange={v => set('urlProduit', v)} placeholder="https://..." type="url" />
         </div>
 
-        {/* BLOC 2 — Frais */}
         <div style={styles.section}>
           <div style={styles.sectionTitle}>💶 Frais</div>
           <div style={styles.grid2}>
@@ -107,7 +100,6 @@ setSuccess(true);
           </div>
         </div>
 
-        {/* BLOC 3 — Rendement & Liquidité */}
         <div style={styles.section}>
           <div style={styles.sectionTitle}>📈 Rendement &amp; Liquidité</div>
           <div style={styles.grid2}>
@@ -116,7 +108,6 @@ setSuccess(true);
           </div>
         </div>
 
-        {/* BLOC 4 — Documents */}
         <div style={styles.section}>
           <div style={styles.sectionTitle}>📎 Documents (optionnels)</div>
           <p style={styles.hint}>Joignez jusqu'à 3 documents : DICI, fiche produit, prospectus... (PDF ou image)</p>
@@ -149,7 +140,6 @@ setSuccess(true);
           </div>
         </div>
 
-        {/* BLOC 5 — Complément */}
         <div style={styles.section}>
           <div style={styles.sectionTitle}>💬 Informations complémentaires</div>
           <textarea
@@ -162,10 +152,14 @@ setSuccess(true);
         </div>
 
         {error && <div style={styles.error}>⚠ {error}</div>}
-        {success && <div style={styles.successBox}>✓ Rapport généré et téléchargé avec succès !</div>}
+        {success && (
+          <div style={styles.successBox}>
+            ✓ Votre demande a bien été envoyée ! Votre analyse est en cours de génération, vous recevrez vos résultats dans quelques instants.
+          </div>
+        )}
 
         <button style={loading ? styles.btnLoading : styles.btn} onClick={handleSubmit} disabled={loading}>
-          {loading ? '⏳ Génération en cours...' : '📄 Générer le rapport PDF'}
+          {loading ? '⏳ Analyse en cours...' : '📄 Générer le rapport PDF'}
         </button>
 
         {loading && (
@@ -236,7 +230,7 @@ const styles = {
   btn: { width: '100%', padding: '15px', background: '#1B2E4B', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginTop: 6 },
   btnLoading: { width: '100%', padding: '15px', background: '#7a9cc4', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: 'not-allowed', marginTop: 6 },
   error: { background: '#FDE8E8', color: '#C0392B', padding: '11px 14px', borderRadius: 6, fontSize: 13, marginBottom: 14 },
-  successBox: { background: '#F0FAF4', color: '#27AE60', padding: '11px 14px', borderRadius: 6, fontSize: 13, marginBottom: 14, fontWeight: 700 },
+  successBox: { background: '#F0FAF4', color: '#27AE60', padding: '14px', borderRadius: 6, fontSize: 13, marginBottom: 14, fontWeight: 700, lineHeight: 1.5 },
   loadingInfo: { textAlign: 'center', fontSize: 12, color: '#7a9cc4', marginTop: 10 },
   disclaimer: { textAlign: 'center', fontSize: 11, color: '#bbb', marginTop: 16, lineHeight: 1.5 }
 };
