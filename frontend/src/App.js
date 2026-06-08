@@ -44,18 +44,9 @@ export default function App() {
   method: 'POST',
   body: formData
 });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Erreur serveur');
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `rapport-clario-${form.name.replace(/\s+/g, '-')}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
+if (!res.ok) {
+  throw new Error('Erreur serveur');
+      
       setSuccess(true);
     } catch (e) {
       setError(e.message);
